@@ -120,8 +120,7 @@ def create_default_data():
         db.session.add_all([GroceryType(grocery, category) for grocery in groceries])
     for quantity_type in DEFAULT_QUANTITY_TYPES:
         if isinstance(quantity_type, tuple):
-            singular, plural = quantity_type
-            db.session.add(QuantityType(singular, plural))
+            db.session.add(QuantityType(*quantity_type))
         else:
             db.session.add(QuantityType(quantity_type))
     db.session.commit()
