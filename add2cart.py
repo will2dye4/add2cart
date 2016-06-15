@@ -72,8 +72,8 @@ class GroceryType(db.Model):
         self.default_quantity_type = default_quantity_type
 
     def __repr__(self):
-        return 'GroceryType(name=%r,category=%r,default_quantity_type_id=%r)' % \
-               (self.name, self.category, self.default_quantity_type_id)
+        return 'GroceryType(name=%r,category=%r,default_quantity_type=%r)' % \
+               (self.name, self.category, self.default_quantity_type)
 
 
 class ShoppingList(db.Model):
@@ -103,14 +103,14 @@ class ListItem(db.Model):
         self.quantity = quantity
 
     def __repr__(self):
-        return 'ListItem(shopping_list_id=%r,grocery_type_id=%r,quantity_type_id=%r,quantity=%r)' % \
-               (self.shopping_list_id, self.grocery_type_id, self.quantity_type_id, self.quantity)
+        return 'ListItem(shopping_list=%r,grocery_type=%r,quantity_type=%r,quantity=%r)' % \
+               (self.shopping_list, self.grocery_type, self.quantity_type, self.quantity)
 
 
 @app.route('/')
 def index():
     shopping_list = ShoppingList.query.first()
-    return json.dumps({'name': shopping_list.name})
+    return json.dumps({'list_name': shopping_list.name, 'items': [item.grocery_type.name for item in shopping_list.items]})
 
 
 def create_default_data():
